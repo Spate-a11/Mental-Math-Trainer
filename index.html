@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta name="theme-color" content="#ffffff">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Kopfrechnen">
+
+    <title>Kopfrechnen</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+    <main class="app">
+        <section class="game">
+            <h1>Kopfrechnen</h1>
+
+            <div class="score">
+                <span>Richtig: <strong id="correctScore">0</strong></span>
+                <span>Falsch: <strong id="wrongScore">0</strong></span>
+            </div>
+
+            <div class="exercise">
+                <span id="firstNumber">0</span>
+                <span id="operatorSymbol">+</span>
+                <span id="secondNumber">0</span>
+            </div>
+
+            <form id="answerForm">
+                <input
+                    id="answerInput"
+                    type="number"
+                    inputmode="decimal"
+                    placeholder="Ergebnis"
+                    autocomplete="off"
+                    required
+                >
+
+                <button type="submit">Prüfen</button>
+            </form>
+
+            <p id="feedback" aria-live="polite"></p>
+
+            <button id="nextButton" class="secondary" type="button">
+                Neue Aufgabe
+            </button>
+        </section>
+
+        <aside class="operators">
+            <h2>Rechenart</h2>
+
+            <button class="operator active" data-operator="+">
+                Plus
+            </button>
+
+            <button class="operator" data-operator="-">
+                Minus
+            </button>
+
+            <button class="operator" data-operator="*">
+                Mal
+            </button>
+
+            <button class="operator" data-operator="/">
+                Geteilt
+            </button>
+        </aside>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
