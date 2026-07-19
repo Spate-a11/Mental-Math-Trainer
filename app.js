@@ -4,6 +4,7 @@ const operatorSymbolElement = document.getElementById("operatorSymbol");
 
 const answerForm = document.getElementById("answerForm");
 const answerInput = document.getElementById("answerInput");
+const feedback = document.getElementById("feedback");
 
 const correctScoreElement = document.getElementById("correctScore");
 const wrongScoreElement = document.getElementById("wrongScore");
@@ -20,23 +21,17 @@ function randomNumber(min, max) {
 }
 
 function getOperatorSymbol() {
-    switch (currentOperator) {
-        case "*":
-            return "×";
-        case "/":
-            return "÷";
-        default:
-            return currentOperator;
-    }
+    if (currentOperator === "*") return "×";
+    if (currentOperator === "/") return "÷";
+
+    return currentOperator;
 }
 
 function createExercise() {
-
     let firstNumber;
     let secondNumber;
 
     switch (currentOperator) {
-
         case "+":
             firstNumber = randomNumber(0, 100);
             secondNumber = randomNumber(0, 100);
@@ -71,38 +66,51 @@ function createExercise() {
 }
 
 function checkAnswer(event) {
-
     event.preventDefault();
 
-    if (answerInput.value === "") return;
+    const inputValue = answerInput.value.trim();
 
-    const userAnswer = Number(answerInput.value);
+    if (inputValue === "") {
+        return;
+    }
 
-    if (userAnswer === correctAnswer) {
+    const userAnswer = Number(inputValue);
+    const previousCorrectAnswer = correctAnswer;
+
+    if (userAnswer === previousCorrectAnswer) {
         correctScore++;
         correctScoreElement.textContent = correctScore;
+
+        feedback.textContent = "Richtig!";
+        feedback.className = "correct";
     } else {
         wrongScore++;
         wrongScoreElement.textContent = wrongScore;
+
+        feedback.textContent =
+            `Falsch. Das richtige Ergebnis war ${previousCorrectAnswer}.`;
+
+        feedback.className = "wrong";
     }
 
+    // Sofort eine neue Aufgabe erzeugen
     createExercise();
 }
 
-operatorButtons.forEach(button => {
-
+operatorButtons.forEach((button) => {
     button.addEventListener("click", () => {
-
-        operatorButtons.forEach(b => b.classList.remove("active"));
+        operatorButtons.forEach((otherButton) => {
+            otherButton.classList.remove("active");
+        });
 
         button.classList.add("active");
-
         currentOperator = button.dataset.operator;
 
+        feedback.textContent = "";
+        feedback.className = "";
+
         createExercise();
-
     });
-
 });
 
 answerForm.addEventListener("submit", checkAnswer);
